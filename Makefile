@@ -6,13 +6,13 @@
 #    By: salmanso <salmanso@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/05/11 11:02:17 by alialmar          #+#    #+#              #
-#    Updated: 2022/10/29 15:17:41 by salmanso         ###   ########.fr        #
+#    Updated: 2022/11/01 21:32:35 by salmanso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SERSRC	= server.c
 
-CLISRC = client.c
+CLISRC	= client.c
 
 SEROBJ		= $(SERSRC:.c=.o)
 CLTOBJ		= $(CLISRC:.c=.o)
