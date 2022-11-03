@@ -6,7 +6,7 @@
 /*   By: salmanso <salmanso@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 20:31:58 by salmanso          #+#    #+#             */
-/*   Updated: 2022/11/01 21:49:34 by salmanso         ###   ########.fr       */
+/*   Updated: 2022/11/03 23:03:53 by salmanso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,128 +16,81 @@
 #include <signal.h>
 #include <stdlib.h>
 
-// sends the binary message to the server
-// waits so the signals won't get ignored
-static void	ft_send_msg(int pid, char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == '1')
-			kill(pid, SIGUSR1);
-		else
-			kill(pid, SIGUSR2);
-		i++;
-	}
-}
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	if (s[i] == '\0')
-		return (0);
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t			i;
-	unsigned char	*tmp;
-
-	i = 0;
-	tmp = (unsigned char *)s;
-	while (i < n)
-	{
-		tmp[i] = 0;
-		i++;
-	}
-	s = tmp;
-}
-
-void	ft_count(int *i, int *neg, const char *str)
-{
-	*i = 0;
-	*neg = 1;
-	while (str[*i] == 32 || (str[*i] >= 9 && str[*i] <= 13))
-		*i += 1;
-	if (str[*i] == '+' || str[*i] == '-')
-	{
-		if (str[*i] == '-')
-			*neg *= -1;
-		*i += 1;
-	}
-	while (str[*i] >= '0' && str[*i] <= '9')
-		*i += 1;
-}
-
-int	ft_atoi(const char *str)
+void ft_error(char *error)
 {
 	int	i;
-	int	multiplicator;
-	int	num;
-	int	neg;
 
-	multiplicator = 1;
+	i = 0;
+	while (error)
+	{
+		write(1, error[i], 1);
+		i++;
+	}
+	exit(1);
+}
+
+int ft_atoi(const char *strt)
+{
+	unsigned int	num;
+	int				sign;
+	int				i;
+
 	num = 0;
-	ft_count(&i, &neg, str);
-	while (i > 0 && str[i - 1] >= '0' && str[i - 1] <= '9')
+	sign = 1;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
 	{
-		num += (str[i - 1] - '0') * multiplicator;
-		multiplicator *= 10;
-		i--;
+		if (str[i] == '-')
+			sign = -sign;
+		i++;
 	}
-	return (num * neg);
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*tmp;
-
-	tmp = (void *)malloc(count * size);
-	if (!tmp)
-		return (NULL);
-	ft_bzero (tmp, count * size);
-	return (tmp);
-}
-
-// converts the string to binary
-// starts from the end of the string with conversion
-// puts the binary number at the end of ret
-
-
-static char	*ft_to_bit(char *s, size_t i, size_t j)
-{
-	char	*ret;
-	int		c;
-	int		bytes;
-
-	i = ft_strlen(s);
-	ret = ft_calloc(i * 8 + 1, sizeof(char));
-	if (ret == NULL)
-		return (NULL);
-	while (i + 1 != 0)
+	while (str[i] > 47 && str[i] < 58 && str[i])
 	{
-		c = s[i - 1];
-		bytes = 8;
-		while (bytes > 0)
+		num = num * 10;
+		num = num + (str[i++] - '0');
+	}
+	if (num > 2147483648 && sign == -1)
+		return (0);
+	else if (num > 2147483647 && sign == 1)
+		return (-1);
+	return ((int) num * sign);
+}
+
+int handler(int pid, char *strt)
+{
+	if (pid <= 1000 || pid >= 100000)
+		ft_error("Invalid PID.\n");
+	else if (*str == '\0')
+		ft_error("Nothing to send.\n");
+	return (1);
+}
+
+void	sigtokill(pid_t pid, char *strt)
+{
+	int	i;
+
+	while (*str != '\0')
+	{
+		i = 7;
+		while (i >= 0)
 		{
-			if (c % 2 == 1)
-				ret[ft_strlen(s) * 8 - j - 1] = '1';
-			else
-				ret[ft_strlen(s) * 8 - j - 1] = '0';
-			c /= 2;
-			j++;
-			bytes--;
+			if ((*str >> i & 1) == 0)
+			{
+				if (kill(pid, SIGUSR1) == -1)
+					ft_error("Invalid PID\n");
+			}
+			else if ((*str >> i & 1) == 1)
+			{
+				if (kill(pid, SIGUSR2) == -1)
+					ft_error("Invalid PID\n");
+			}
+			usleep(80);
+			i--;
 		}
-		i--;
+		str++;
 	}
-	return (ret);
 }
 
 // prints possible errors
@@ -150,17 +103,9 @@ int	main(int argc, char **argv)
 	char	*bits;
 
 	if (argc != 3)
-	{
-		write(1,"wrong number of arguments\n",26);
+		ft_error("wrong number of arguments\n");
+	else if (handler(ft_atoi(argv[1]), argv[2]) == 0)
 		return (0);
-	}
-	pid = ft_atoi(argv[1]);
-	bits = ft_to_bit(argv[2], 0, 0);
-	if (bits == NULL)
-	{
-		write(1,"allocation went wrong\n",22);
-		return (0);
-	}
-	ft_send_msg(pid, bits);
-	free(bits);
+	sigtokill(ft_atoi(argv[1]), argv[2]);
+	return (0);
 }
