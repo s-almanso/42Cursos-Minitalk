@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include <unistd.h>
 #include <signal.h>
 
@@ -53,14 +52,12 @@ void	ft_signal(int sig)
 }
 
 
-int main()
-
+int	main(void)
 {
 	pid_t	pid;
 
 	pid = getpid();
-	// getppid() : returns the process ID (integer) of
-	// the parent of the calling process.
+	// getppid() : returns the process ID (integer) of the parent of the calling process.
 	write(1, "\nThe PID is: ", 14);
 	ft_putnbr(pid);
 	ft_putchar('\n');

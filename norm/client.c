@@ -95,11 +95,13 @@ int	main(int argc, char **argv)
 {
 	int		pid;
 	char	*bits;
+	int		sig;
 
+	sig = ft_atoi(argv[1]);
 	if (argc != 3)
 		ft_error("Wrong number of arguments\n");
-	else if (handler(ft_atoi(argv[1]), argv[2]) == 0)
+	else if (handler(sig, argv[2]) == 0)
 		return (0);
-	sigtokill(ft_atoi(argv[1]), argv[2]);
+	sigtokill(sig, argv[2]);
 	return (0);
 }
