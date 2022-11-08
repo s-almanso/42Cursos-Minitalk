@@ -135,7 +135,7 @@ int	main(int argc, char **argv)
 	sig = ft_atoi(argv[1]);
 	if (argc != 3)
 		ft_error("Wrong number of arguments\n");
-	else if (handler(ft_atoi(sig), argv[2]) == 0)
+	else if (handler(sig, argv[2]) == 0)
 		return (0);
 	sigtokill(sig, argv[2]);
 	return (0);

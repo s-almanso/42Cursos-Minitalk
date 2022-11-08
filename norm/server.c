@@ -6,7 +6,7 @@
 /*   By: salmanso <salmanso@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 20:31:56 by salmanso          #+#    #+#             */
-/*   Updated: 2022/11/05 23:46:59 by salmanso         ###   ########.fr       */
+/*   Updated: 2022/11/09 00:19:50 by salmanso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	main(void)
 	pid_t	pid;
 
 	pid = getpid();
-	write(1, "\nThe PID is: ", 14);
+	write(1, "Your PID is: ", 13);
 	ft_putnbr(pid);
 	ft_putchar('\n');
 	while (1)

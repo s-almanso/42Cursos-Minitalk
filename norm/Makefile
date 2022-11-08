@@ -6,7 +6,7 @@
 #    By: salmanso <salmanso@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/23 20:31:52 by salmanso          #+#    #+#              #
-#    Updated: 2022/11/05 23:46:52 by salmanso         ###   ########.fr        #
+#    Updated: 2022/11/09 00:15:34 by salmanso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CLISRC		= client.c
 
 
 CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra -I
+CFLAGS		= -Wall -Werror -Wextra
 RM			= rm -f
 AR			= ar rcs
 
@@ -42,12 +42,12 @@ all			: server client
 
 server:
 			${CC} $(SERSRC) -c
-			${CC} ${FLAGS} -o server $(SERSRC)
+			${CC} ${CFLAGS} -o server $(SERSRC)
 			@echo "$(GREEN)Server successfully compiled!$(DEF_COLOR)"
 
 client:
 			$(CC) $(CLISRC) -c
-			$(CC) ${FLAGS} -o client $(CLISRC)
+			$(CC) ${CFLAGS} -o client $(CLISRC)
 			@echo "$(GREEN)Client successfully compiled!$(DEF_COLOR)"
 
 clean:
