@@ -10,19 +10,19 @@
 #                                                                              #
 # **************************************************************************** #
 
-#Variables
-
+SERVER		= server
 SERSRC		= server.c
+SER_OBJ		= $(SERSRC:.c=.o)
 
+CLIENT		= client
 CLISRC		= client.c
-
+CLI_OBJ		= $(CLISRC:.c=.o)
 
 CC			= gcc
 CFLAGS		= -Wall -Werror -Wextra
 RM			= rm -f
 AR			= ar rcs
 
-# Colors
 DEF_COLOR	= \033[0;39m
 RED			= \033[1;31m
 GREEN		= \033[1;32m
@@ -31,27 +31,18 @@ BLUE		= \033[0;34m
 CYAN		= \033[0;36m
 PINK		= \033[0;35m
 
-#Sourcess
+all:		$(SERVER) $(CLIENT)
 
-SER_OBJ		= 	$(SERSRC:.c=.o)
-CLI_OBJ		= 	$(CLISRC:.c=.o)
-
-###
-
-all			: server client
-
-server:
-			${CC} $(SERSRC) -c
-			${CC} ${CFLAGS} -o server $(SERSRC)
+$(SERVER):	$(SER_OBJ)
+			$(CC) $(CFLAGS) $(SERSRC) -o $(SERVER)
 			@echo "$(GREEN)Server successfully compiled!$(DEF_COLOR)"
 
-client:
-			$(CC) $(CLISRC) -c
-			$(CC) ${CFLAGS} -o client $(CLISRC)
+$(CLIENT):	$(CLI_OBJ)	
+			$(CC) $(CFLAGS) $(CLISRC) -o $(CLIENT)
 			@echo "$(GREEN)Client successfully compiled!$(DEF_COLOR)"
 
 clean:
-			@$(RM) client server
+			@$(RM) $(CLIENT) $(SERVER)
 			@echo "$(YELLOW)Client/Server object files successfully cleaned!$(DEF_COLOR)"
 
 fclean:		clean
@@ -65,4 +56,4 @@ re:			fclean all
 norm:
 			@norminette $(SERSRC) $(CLISRC) | grep -v Norme -B1 || true
 
-.PHONY:		all clean fclean re norm
+.PHONY:		all clean fclean re norm 

@@ -6,7 +6,7 @@
 /*   By: salmanso <salmanso@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 20:31:58 by salmanso          #+#    #+#             */
-/*   Updated: 2022/11/09 00:15:35 by salmanso         ###   ########.fr       */
+/*   Updated: 2022/11/09 23:27:52 by salmanso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,13 @@ void	sigtokill(pid_t pid, char *sig)
 				if (kill(pid, SIGUSR2) == -1)
 					ft_puterror("Invalid PID\n");
 			}
-			usleep(150);
+			usleep(160);
 			i--;
 		}
 		sig++;
 	}
 }
-#include <stdio.h>
-#include <stdlib.h>
+
 int	main(int argc, char **argv)
 {
 	int			pid;
@@ -95,17 +94,17 @@ int	main(int argc, char **argv)
 		ft_puterror("Wrong number of arguments\n");
 	while (argv[1][i] != '\0')
 	{
-		if ((argv[1][i] >= 33 && argv[1][i] <= 47) || (argv[1][i] >= 58 && argv[1][i] <= 64)
-			|| (argv[1][i] >= 91 && argv[1][i] <= 96) || (argv[1][i] >= 123 && argv[1][i] <= 124))
+		if ((argv[1][i] >= 33 && argv[1][i] <= 47) ||
+				(argv[1][i] >= 58 && argv[1][i] <= 64)
+				|| (argv[1][i] >= 91 && argv[1][i] <= 96)
+				|| (argv[1][i] >= 123 && argv[1][i] <= 124))
 			ft_puterror("Invalid PID\n");
 		i++;
 	}
-	pid = atoi(argv[1]);
-	printf("pid = %d\n", pid);
+	pid = ft_atoi(argv[1]);
 	sig = argv[2];
 	if (ft_handler(pid, sig) == 0)
 		return (0);
 	sigtokill(pid, sig);
 	return (0);
 }
-
