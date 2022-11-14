@@ -6,7 +6,7 @@
 /*   By: salmanso <salmanso@student.42abudhabi.ae>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/23 20:31:58 by salmanso          #+#    #+#             */
-/*   Updated: 2022/11/09 23:27:52 by salmanso         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:04:37 by salmanso         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_puterror(char *c)
 
 int	ft_handler(int pid, char *str)
 {
-	if (pid <= 1000 || pid >= 100000)
+	if (pid <= 1000 || pid >= 10000)
 		ft_puterror("Invalid PID.\n");
 	else if (!str)
 		ft_puterror("Nothing to send.\n");
@@ -88,8 +88,9 @@ int	main(int argc, char **argv)
 {
 	int			pid;
 	char		*sig;
-	static int	i;
+	int			i;
 
+	i = 0;
 	if (argc != 3)
 		ft_puterror("Wrong number of arguments\n");
 	while (argv[1][i] != '\0')
