@@ -6,23 +6,31 @@
 #    By: salmanso <salmanso@student.42abudhabi.ae>  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/23 20:31:52 by salmanso          #+#    #+#              #
-#    Updated: 2022/11/05 23:46:52 by salmanso         ###   ########.fr        #
+#    Updated: 2022/11/09 23:58:35 by salmanso         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-#Variables
-
+SERVER		= server
 SERSRC		= server.c
+SER_OBJ		= $(SERSRC:.c=.o)
 
+CLIENT		= client
 CLISRC		= client.c
+CLI_OBJ		= $(CLISRC:.c=.o)
 
+CLIENT_B	= client_bonus
+CLI_B_SRC	= client_bonus.c
+CLI_B_OBJ	= $(CLI_B_SRC:.c=.o)
+
+SERVER_B	= server_bonus
+SER_B_SRC	= server_bonus.c
+SER_B_OBJ	= $(SER_B_SRC:.c=.o)
 
 CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra -I
+CFLAGS		= -Wall -Werror -Wextra
 RM			= rm -f
 AR			= ar rcs
 
-# Colors
 DEF_COLOR	= \033[0;39m
 RED			= \033[1;31m
 GREEN		= \033[1;32m
@@ -31,27 +39,23 @@ BLUE		= \033[0;34m
 CYAN		= \033[0;36m
 PINK		= \033[0;35m
 
-#Sourcess
+all:		$(SERVER) $(CLIENT)
 
-SER_OBJ		= 	$(SERSRC:.c=.o)
-CLI_OBJ		= 	$(CLISRC:.c=.o)
-
-###
-
-all			: server client
-
-server:
-			${CC} $(SERSRC) -c
-			${CC} ${FLAGS} -o server $(SERSRC)
+$(SERVER):	$(SER_OBJ)
+			$(CC) $(CFLAGS) $(SERSRC) -o $(SERVER)
 			@echo "$(GREEN)Server successfully compiled!$(DEF_COLOR)"
 
-client:
-			$(CC) $(CLISRC) -c
-			$(CC) ${FLAGS} -o client $(CLISRC)
+$(CLIENT):	$(CLI_OBJ)
+			$(CC) $(CFLAGS) $(CLISRC) -o $(CLIENT)
 			@echo "$(GREEN)Client successfully compiled!$(DEF_COLOR)"
 
+bonus:		$(CLI_B_OBJ) $(SER_B_OBJ)
+			@$(CC) $(CFLAGS) $(CLI_B_SRC) -o $(CLIENT_B)
+			@$(CC) $(CFLAGS) $(SER_B_SRC) -o $(SERVER_B)
+			@echo "$(BLUE)Successfully compiled client/server bonus!$(DEF_COLOR)"
+
 clean:
-			@$(RM) client server
+			@$(RM) $(CLIENT) $(SERVER)
 			@echo "$(YELLOW)Client/Server object files successfully cleaned!$(DEF_COLOR)"
 
 fclean:		clean
